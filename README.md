@@ -5,7 +5,7 @@
 ##### 1. Combine datasets
 ```
 python dataset.py combine --config=~/research/data/mednorm/datasets.yaml \
-    --output=~/research/data/mednorm_debug/generate/mednorm_raw.tsv
+    --output=~/research/data/mednorm/generate/mednorm_raw.tsv
 ```
 ```
 Processing datasets:
@@ -35,7 +35,7 @@ Done. 30246 lines combined.
 python dataset.py build_graph \
     --dataset=~/research/data/mednorm/generate/mednorm_raw.tsv \
     --output=~/research/data/mednorm/generate/mednorm_raw.graph \
-    --mysql-host=130.88.192.221 --mysql-user=root --mysql-db=umls \
+    --mysql-host=127.0.0.1 --mysql-user=root --mysql-db=umls \
     --rules=./resources/rules.tsv
 ```
 
@@ -135,15 +135,7 @@ COL: single_mapped_sct_ids, 0 duplicates, 2089 labels
 
 ```
 python dataset.py  filter \
-    --dataset=~/research/data/mednorm/generate/mednorm_kw.tsv \
+    --dataset=~/research/data/mednorm/generate/mednorm_full.tsv \
     --original=CADEC,TwiMed-Twitter,SMM4H2017-train,SMM4H2017-test,TwADR-L,TAC2017_ADR,TwiMed-PubMed \
     --output=~/research/data/mednorm/mednorm_full.tsv
 ```
-
-```
-python dataset.py  filter \
-    --dataset=~/research/data/mednorm/generate/mednorm_kw.tsv \
-    --original=CADEC,TwiMed-Twitter,SMM4H2017-train,SMM4H2017-test,TwADR-L \
-    --output=~/research/data/mednorm/mednorm_social.tsv
-```
-
