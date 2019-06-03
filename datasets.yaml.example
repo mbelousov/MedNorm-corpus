@@ -1,0 +1,8 @@
+CADEC: '/var/data/norm/CADEC/CADEC.v2'
+TwADR-L: '/var/data/norm/cambridge-datasets/TwADR-L'
+TwiMed-PubMed:  '/var/data/norm/TwiMed/gold_conflated/pubmed'
+TwiMed-Twitter:  '/var/data/norm/TwiMed/gold_conflated/twitter'
+SMM4H2017-train:  '/var/data/norm/amia2017_t3_norm/train.tsv'
+SMM4H2017-test:  '/var/data/norm/amia2017_t3_norm/test.tsv'
+TAC2017_ADR: '/var/data/norm/TAC2017_ADR/data/tac2017_mednorm.tsv'
+
