@@ -321,7 +321,6 @@ def get_instance_meddra_pt(mdg, instance_node, max_depth=0):
 
 
 def get_term_codes(mdg, all_mappings, all_annotations):
-    # TODO: Would be nice to have a stats for skipped entities
     meddra_codes = set()
     sct_ids = set()
     final_mappings = set()
@@ -463,7 +462,6 @@ def get_keyed_annotations_distance(a_b, g):
     return get_concept_pair_key(*a_b), get_annotations_distance(a_b, g)
 
 
-# TODO: Add comments
 def get_annotations_distance(a_b, g):
     a, b = a_b
     try:
@@ -748,20 +746,12 @@ class MedNormOntology(object):
                              workers=0, epochs=50, sg=0, hs=0,
                              concepts_only=False):
         from deepwalk.graph import load_edgelist, build_deepwalk_corpus
-        # self.preload_dist_graph(weighted=False, concepts_only=concepts_only)
         self.preload_merged_dist_graph()
         nmap_inv = {}
         for k, v in self.udg_nodemap.items():
             nmap_inv.setdefault(str(v), []).append(k)
         assert nx.number_connected_components(self.udg) == 1
-        # for c in nx.connected_components(self.udg):
-        #     c = list(c)
-        #     if len(c) < 10:
-        #         print(c)
-        #         for g in c:
-        #             print(nmap_inv[str(g)])
-        #     print("----")
-        # print('Done.')
+
 
         if workers <= 0:
             workers = multiprocessing.cpu_count()
@@ -772,7 +762,6 @@ class MedNormOntology(object):
             tf.flush()
             temp_name = tf.name
             nx.write_edgelist(self.udg, temp_name, data=False)
-            # g.write_edgelist(temp_name, data=False)
             print("%s saved" % temp_name)
             G = load_edgelist(temp_name, undirected=True)
         print("Number of nodes: {}".format(len(G.nodes())))
@@ -882,21 +871,6 @@ class MedNormOntology(object):
                 continue
             t_counter = Counter(t_annotations)
             most_popular = t_counter.most_common(1)[0][0]
-            # longest_dist = -np.inf
-            # print("%s (%d)" % (token, len(unq_annotations)))
-            # t_distances = {most_popular: 0}
-            # most_distant = None
-            # for cand in unq_annotations:
-            #     if most_popular == cand:
-            #         continue
-            #     k = get_concept_pair_key(most_popular, cand)
-            #     dist = distmap[k]
-            #     if dist > longest_dist:
-            #         longest_dist = dist
-            #         most_distant = cand
-            #     amb_annotations.add(most_popular)
-            #     amb_annotations.add(cand)
-            #     t_distances[cand] = dist
 
             t_frequencies = dict(t_counter)
             n_total = sum(t_frequencies.values())
@@ -985,7 +959,6 @@ class MedNormOntology(object):
 
             ann_mappings = self.get_annotation_mappings(annotations)
 
-            # TODO: Change to dist calculation between most popular and others
             pairs = combinations(annotations, 2)
             for a, b in pairs:
                 dist = get_annotations_distance((a, b), self.mdg)

@@ -1,26 +1,16 @@
 import codecs
 import getpass
-import json
 import multiprocessing
 import os
-import re
 import time
 from collections import Counter
-from collections import OrderedDict
-from itertools import combinations
 
 import Levenshtein
 import numpy as np
 import pandas as pd
-import unidecode
 from fire import Fire
 from gensim.models.keyedvectors import KeyedVectors
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import WordPunctTokenizer
-from sklearn.feature_extraction.text import TfidfTransformer, \
-    CountVectorizer, TfidfVectorizer
 from tqdm import tqdm
 
 from mednorm.datasets import create_converter
@@ -74,16 +64,10 @@ class TermTokenizer(RegexpTokenizer):
         RegexpTokenizer.__init__(self, r'\s+|[^\-\_A-Za-z0-9]+', gaps=True)
 
 
-# class TermTokenizer(WordPunctTokenizer):
-#     pass
 def connect_to_umls_db(*args, **kwargs):
     from pymedtermino.umls import connect_to_umls_db as pymed_connect
     return pymed_connect(*args, **kwargs)
 
-
-# Pipeline:
-# combine -> build graph -> unrelated_annotations -> token_confusions ->
-# human_correct -> build_graph -> tsv (only all terminologies) -> resolve
 
 class MedNormDatasetCli(object):
     def combine(self, config, output, sep='\t', encoding='utf-8'):
@@ -1071,7 +1055,6 @@ class MedNormDatasetCli(object):
             else:
                 best_base = cands[0]
 
-
             df.at[idx, single_base_col] = best_base
 
             for tc, lc in pm[phrase].items():
@@ -1219,7 +1202,6 @@ class MedNormDatasetCli(object):
 
         flt_df.to_csv(output_path, sep='\t', header=True, index=False)
         print("%s saved" % output_path)
-
 
 
 if __name__ == '__main__':

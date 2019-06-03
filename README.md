@@ -1,7 +1,13 @@
 # Data harmonisation pipeline for MedNorm corpus
+The data harmonisation pipeline combines instances from various datasets 
+and provides consistent simultaneous mappings to both MedDRA and SNOMED-CT terminologies.
+It also generates a corpus graph and cross-terminology concept embeddings.
+### A corpus and embeddings for cross-terminology medical concept normalisation
+The corpus and embeddings are available here: https://doi.org/10.17632/b9x7xxb9sz.1
 
 
 
+### Step-by-step guide
 ##### 1. Combine datasets
 ```
 python dataset.py combine --config=~/research/data/mednorm/datasets.yaml \
@@ -30,7 +36,7 @@ Processing datasets:
 File /home/mbelousov/research/data/mednorm/generate/mednorm_raw.tsv saved.
 Done. 30246 lines combined.
 ```
-##### 2. Build initial graph representation
+##### 2. Build initial corpus graph representation
 ```
 python dataset.py build_graph \
     --dataset=~/research/data/mednorm/generate/mednorm_raw.tsv \
@@ -39,11 +45,11 @@ python dataset.py build_graph \
     --rules=./resources/rules.tsv
 ```
 
-##### 3. Build label embedding model
+##### 3. Build concept embeddings model
 ```
 python dataset.py build_embeddings \
     --graph=~/research/data/mednorm/generate/mednorm_raw.graph \
-    --output=~/research/data/mednorm/embeddings/mednorm_raw \
+    --output=~/research/data/mednorm/embeddings/mednorm_raw_10n_40l_5w_64dim \
     --mode=deepwalk \
     --n=10 --length=40 --dim=64 --w=5 --seed=42
 ```
@@ -77,7 +83,7 @@ python dataset.py human_correct \
 python dataset.py build_graph \
     --dataset=~/research/data/mednorm/generate/mednorm_corrected.tsv \
     --output=~/research/data/mednorm/generate/mednorm_corrected.graph \
-    --mysql-host=130.88.192.221 --mysql-user=root --mysql-db=umls \
+    --mysql-host=127.0.0.1 --mysql-user=root --mysql-db=umls \
     --rules=./resources/rules.tsv
 ```
 
@@ -131,11 +137,22 @@ COL: single_mapped_sct_ids, 0 duplicates, 2089 labels
 ```
 
 
-## Filtering
+##### 10. Filtering
 
 ```
 python dataset.py  filter \
     --dataset=~/research/data/mednorm/generate/mednorm_full.tsv \
     --original=CADEC,TwiMed-Twitter,SMM4H2017-train,SMM4H2017-test,TwADR-L,TAC2017_ADR,TwiMed-PubMed \
     --output=~/research/data/mednorm/mednorm_full.tsv
+```
+## Citation
+Please cite the following paper:
+```
+@inproceedings{belousov2019mednorm,
+  title={MedNorm: A Corpus and Embeddings for Cross-terminology Medical Concept Normalisation},
+  author={Belousov, Maksim and Dixon, William G and Nenadic, Goran},
+  booktitle={},
+  pages={},
+  year={2019}
+}
 ```
