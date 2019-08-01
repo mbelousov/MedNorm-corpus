@@ -151,8 +151,8 @@ Please cite the following paper:
 @inproceedings{belousov2019mednorm,
   title={MedNorm: A Corpus and Embeddings for Cross-terminology Medical Concept Normalisation},
   author={Belousov, Maksim and Dixon, William G and Nenadic, Goran},
-  booktitle={},
-  pages={},
+  booktitle={Proceedings of the Fourth Social Media Mining for Health Applications (\# SMM4H) Workshop \& Shared Task},
+  pages={31--39},
   year={2019}
 }
 ```
